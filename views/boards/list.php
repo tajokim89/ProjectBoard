@@ -1,7 +1,7 @@
 <?php
 require_once VIEW_PATH.'layouts/inc_header.php';
 ?>
-    <center><h2>테이블</h2></center>
+    <center><h2>게시판</h2></center>
 
     <table class="table table-hover table-bordered">
         <thead>

@@ -21,6 +21,12 @@ class DBManager {
         mysqli_close($this->conn);
     }
 
+    /*
+     * connect
+     * @desc    database connect
+     * @param   void
+     * @return  void
+     */
     public function connect() {
         $this->conn = mysqli_connect('localhost', $this->str_user, $this->str_password, $this->str_database);
         if(mysqli_connect_error()){
@@ -28,10 +34,22 @@ class DBManager {
         }
     }
 
+    /*
+     * close
+     * @desc    database disconnect
+     * @param   void
+     * @return  void
+     */
     public function close() {
         mysqli_close($this->conn);
     }
 
+    /*
+     * query
+     * @desc    query
+     * @param   $str_query: 쿼리문(string), $b_row: 값이 1개일 경우, 해당 row만 return(bool), $str_type: 데이터 타입(string)
+     * @return  result: 쿼리 데이터(array) / 실패시 false(bool)
+     */
     public function query($str_query, $b_row = true, $str_type = 'array') {
         $rst_query = mysqli_query($this->conn, $str_query);
         if($rst_query === false) {
@@ -51,7 +69,6 @@ class DBManager {
                while($row = mysqli_fetch_assoc($rst_query)) {
                     $result[] = $row;
                 }
-
            break;
         }
 
@@ -61,6 +78,12 @@ class DBManager {
         return $result;
     }
 
+    /*
+     * get_count
+     * @desc    해당 테이블의 갯수
+     * @param   $str_table: 테이블명(string), $str_where: where절 조건(string)
+     * @return  number(갯수)
+     */
     public function get_count($str_table, $str_where = '') {
         $str_query = "SELECT COUNT(*) as count FROM {$str_table}";
         if(!empty($str_where)) {

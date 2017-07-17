@@ -10,16 +10,35 @@ class BoardManager {
         $this->obj_bm->connect();
     }
 
+    /*
+     * board_list
+     * @desc    게시판 리스트 추출
+     * @param   $n_page: 현재 페이지(number)
+     * @return  array(게시판 리스트(id, title, author, hits, created)) / false
+     */
     public function board_list($n_page = 1) {
         if(!is_numeric($n_page)) {
             return false;
         }
 
         $n_target   = ($n_page - 1) * $this->n_limit;
-        $arr_board  = $this->obj_bm->query("SELECT * FROM board ORDER BY id DESC LIMIT {$n_target}, {$this->n_limit}");
+        $str_field = "id, title, author, hits, created";
+        $arr_board  = $this->obj_bm->query("SELECT {$str_field} FROM board ORDER BY id DESC LIMIT {$n_target}, {$this->n_limit}");
         return $arr_board;
     }
 
+    /*
+     * pagination
+     * @desc    페이징 처리
+     * @param   $n_page: 현재 페이지(number)
+     * @return  array(
+     *      total_cnt:      총 갯수(number)
+     *      total_page:     총 페이지 수(number)
+     *      total_block:    총 페이지 블럭 수(number)
+     *      current_block:  현재 페이지 블럭(number)
+     *      prev_page:      이전 페이지(number)
+     *      next_page:      다음 페이지(number)
+     */
     public function pagination($n_page = 1) {
         if(!is_numeric($n_page)) {
             return false;
@@ -44,8 +63,6 @@ class BoardManager {
             'prev_page'     => $n_prev_page,
             'next_page'     => $n_next_page,
         );
-
-        print_r($arr_pagination);
 
         return $arr_pagination;
     }
